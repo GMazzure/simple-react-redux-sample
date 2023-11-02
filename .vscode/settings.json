@@ -1,0 +1,13 @@
+{
+    "files.exclude": {
+        "node_modules": true,
+        ".env-*":true,
+        ".git*": true,
+        "Docker*": true,
+        "package-lock.json": true,
+        ".vscode": true,
+        "db_scripts": true,
+        ".sequelizerc": true,
+        "core": true
+    }
+}
