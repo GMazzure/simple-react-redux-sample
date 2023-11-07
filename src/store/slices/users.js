@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { mockedUsers } from './userMockData'
 
 const slice = createSlice({
-  name: "photos",
+  name: "users",
   initialState: {
     loading: false,
     data: null,
@@ -26,18 +27,28 @@ const slice = createSlice({
 
 const { fetchStarted, fetchSuccess, fetchError } = slice.actions;
 
-export const fetchPhotos =
+export const fetchUsers =
   (page = 1) =>
   async (dispatch) => {
     try {
       dispatch(fetchStarted());
-      const response = await fetch(
-        `https://dogsapi.origamid.dev/json/api/photo/?_page=${page}&_total=9&user=0`,
-        {
-          cache: "no-store",
-        }
-      );
-      const data = await response.json();
+       
+      const mockedFetchUsers = () => {
+        return new Promise((resolve) => {
+          resolve(mockedUsers)
+        })
+      }
+        
+      const data = await mockedFetchUsers()
+
+      // const response = await fetch(
+      //   `https://dogsapi.origamid.dev/json/api/photo/?_page=${page}&_total=9&user=0`,
+      //   {
+      //     cache: "no-store",
+      //   }
+      // );
+      // const data = await response.json();
+
       dispatch(fetchSuccess(data));
     } catch (error) {
       console.log(error.message)
@@ -45,8 +56,11 @@ export const fetchPhotos =
     }
   };
 
-export const selectByMinAge = (age) => (state) => state.photos.data?.filter(
-  ({idade}) => idade >= age
+export const selectByMinAge = (age) => (state) => state.users.data?.filter(
+  (user) => {
+    console.log(user.age, age)
+    return user.age >= age
+  }
 )
 
 export default slice.reducer;
